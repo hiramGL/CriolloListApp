@@ -1,0 +1,103 @@
+"use client"
+import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+export default function ProfilePage() {
+    const router = useRouter() 
+  return (
+    
+    <main className="max-w-4xl mx-auto px-6 py-10 text-gray-900">
+      {/* Header */}
+      <section className="flex flex-col sm:flex-row items-center gap-6 mb-8">
+      <div className="flex justify-end mb-6">
+        <Button
+          variant="outline"
+          className="rounded-xl px-4 py-2 text-sm"
+          onClick={() => router.push("/")}
+        >
+          Home
+        </Button>
+      </div>
+        <div className="w-24 h-24 rounded-full bg-green-100 overflow-hidden">
+          <Image src="/default-avatar.png" alt="Profile" width={96} height={96} className="object-cover" />
+        </div>
+        
+        <div>
+          <h1 className="text-2xl font-bold">Jessica Morales</h1>
+          <p className="text-green-700">Graphic Designer</p>
+          <p className="text-sm text-green-600 mt-1">● Available online</p>
+        </div>
+      </section>
+
+      {/* About Me */}
+      <section className="mb-8">
+        <h2 className="text-lg font-semibold mb-2">About Me</h2>
+        <p className="text-sm text-gray-700">
+          I'm a student with a passion for creating clean, impactful design solutions.
+          Let me help bring your ideas to life!
+        </p>
+      </section>
+
+      {/* Services Offered */}
+      <section className="mb-8">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-lg font-semibold">Services Offered</h2>
+          <Button className="rounded-xl px-4 py-1 text-sm">Contact Me</Button>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Card className="shadow-sm rounded-xl">
+            <CardContent className="p-4">
+              <div className="flex justify-between items-center mb-1">
+                <p className="font-medium">Logo Design</p>
+                <span className="text-sm font-semibold">$50</span>
+              </div>
+              <p className="text-sm text-gray-600">Simple and effective logos tailored to your brand.</p>
+            </CardContent>
+          </Card>
+          <Card className="shadow-sm rounded-xl">
+            <CardContent className="p-4">
+              <div className="flex justify-between items-center mb-1">
+                <p className="font-medium">Social Media Graphics</p>
+                <span className="text-sm font-semibold">Negotiable</span>
+              </div>
+              <p className="text-sm text-gray-600">Custom graphics to enhance your online presence.</p>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Portfolio */}
+      <section className="mb-8">
+        <h2 className="text-lg font-semibold mb-2">Portfolio</h2>
+        <div className="grid grid-cols-3 gap-4">
+          {[1, 2, 3].map((item) => (
+            <div
+              key={item}
+              className="aspect-square bg-green-100 rounded-xl flex items-center justify-center"
+            >
+              <Image src="/placeholder-image.png" alt="Portfolio item" width={80} height={80} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="mb-4">
+        <h2 className="text-lg font-semibold mb-2">Testimonials</h2>
+        <Card className="rounded-xl shadow-sm">
+          <CardContent className="p-4">
+            <p className="text-green-800 font-bold">★★★★★</p>
+            <p className="text-sm text-gray-800 font-medium">Michael S., Business Administration</p>
+            <p className="text-sm text-gray-600 mt-1">
+              Jessica did an amazing job on our logo. Highly recommend her services!
+            </p>
+          </CardContent>
+        </Card>
+        <div className="mt-4">
+          <Button className="rounded-xl px-4 py-2 text-sm">Leave a Review</Button>
+        </div>
+      </section>
+    </main>
+  )
+}
