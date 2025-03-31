@@ -42,7 +42,7 @@ export default function Home() {
     </li>
   </ul>
 
-  <Link href="/coming-soon">
+  <Link href="/login" className="hidden md:block">
     <Button variant="outline">Login / Sign Up</Button>
   </Link>
 </nav>
