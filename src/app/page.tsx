@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -29,7 +31,7 @@ export default function Home() {
       <Link href="/">Home</Link>
     </li>
     <li>
-      <Link href="/coming-soon">Categories</Link>
+      <Link href="/categories">Categories</Link>
     </li>
     <li>
       <Link href="/coming-soon">Resources</Link>
