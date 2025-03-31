@@ -29,10 +29,13 @@ export default function LoginPage() {
       </form>
       <p className="mt-4 text-sm text-gray-600">
         Don't have an account?{" "}
-        <Button variant="link" onClick={() => router.push("/coming-soon")}>
+        <Button variant="link" onClick={() => router.push("/sign-up")}>
           Sign Up
         </Button>
       </p>
+      <Button variant="outline" className="mt-4" onClick={() => router.push("/")}>
+        Back to Home
+      </Button>
     </main>
   )
 }
