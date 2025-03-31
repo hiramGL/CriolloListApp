@@ -3,8 +3,10 @@
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { useRouter } from "next/navigation"
 
 export default function CategoriesPage() {
+    const router = useRouter()
     const [searchTerm, setSearchTerm] = useState("")
     const [selectedCategory, setSelectedCategory] = useState("")
     const [services, setServices] = useState<{ id: number; name: string; category: string }[]>([]) // Placeholder for fetched services
@@ -81,6 +83,13 @@ export default function CategoriesPage() {
                     <p className="text-gray-600">No services found. Try a different search.</p>
                 )}
             </section>
+            <Button
+                variant="outline"
+                className="mt-4"
+                onClick={() => router.push("/")}
+            >
+                Back to Home
+            </Button>
         </main>
     )
 }
