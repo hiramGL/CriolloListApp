@@ -7,6 +7,7 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { FaPaintBrush, FaChalkboardTeacher, FaMoneyBillWave, FaShoppingCart, FaSpa, FaCalendarAlt } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
+import { link } from "fs"
 
 export default function Home() {
   const categories = [
@@ -15,7 +16,7 @@ export default function Home() {
     { name: "Finance", icon: <FaMoneyBillWave /> },
     { name: "E-commerce", icon: <FaShoppingCart /> },
     { name: "Wellness", icon: <FaSpa /> },
-    { name: "Events", icon: <FaCalendarAlt /> },
+    { name: "Events", icon: <FaCalendarAlt />, href: "/events" },
   ];
 
   return (
@@ -41,6 +42,9 @@ export default function Home() {
     </li>
     <li>
       <Link href="/coming-soon">Messages</Link>
+    </li>
+    <li>
+      <Link href="/events">Events</Link>
     </li>
   </ul>
 
