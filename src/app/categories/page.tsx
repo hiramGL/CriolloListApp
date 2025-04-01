@@ -5,6 +5,13 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
 
+/*
+This page is for searching services by category, this will actively
+use the databse to query all available services and filter them by the selected category.
+
+The page will have standard categories to choose from, but the main goal is 
+to solely use categories present in the database to show the variety of services available.
+*/
 export default function CategoriesPage() {
     const router = useRouter()
     const [searchTerm, setSearchTerm] = useState("")

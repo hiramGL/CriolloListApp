@@ -5,17 +5,30 @@ import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
+/*
+This page is for the first account creation process for a user.
+It contains a form to fill in the required information to create an account.
+Also the ability to go back to the home page or login page if the user already has an account.
+
+
+Things to be implemented:
+    > logic for actually submitting info to DB 
+    > security details (might already be implemented depending on DB setup)
+*/
 export default function SignUpPage() {
     const router = useRouter()
-    const [step, setStep] = useState(1) // Track the current step
+    const [step, setStep] = useState(1) // Track the current step, used for filling in personal info. 
 
     return (
-        <main className="min-h-screen flex flex-col items-center justify-center px-4">
+        //header tag for entire page, tailwind css for styling. 
+        <main className="min-h-screen flex flex-col items-center justify-center px-4"> 
             <h1 className="text-3xl font-bold mb-6">Sign Up</h1>
 
-            {step === 1 && (
+            {step === 1 && ( // first step in the form to fill in personal information
                 <form className="w-full max-w-sm space-y-4">
-                    {/* Step 1: Basic Information */}
+                    {/* Step 1: personal information */}
+
+                    {/* Form fields for basic information */}
                     <div className="grid grid-cols-1 gap-4 mb-4">
                         <div>
                             <label htmlFor="name" className="block text-sm font-medium mb-1">
@@ -45,7 +58,7 @@ export default function SignUpPage() {
                     <Button
                         type="button"
                         className="w-full"
-                        onClick={() => setStep(2)} // Move to Step 2
+                        onClick={() => setStep(2)} // switch to step 2 to continue account creation
                     >
                         Next
                     </Button>
@@ -105,7 +118,7 @@ export default function SignUpPage() {
                     Login
                 </Button>
             </p>
-            <Button
+            <Button // Back to Home button to redirect to the home page
                 variant="outline"
                 className="mt-4"
                 onClick={() => router.push("/")}

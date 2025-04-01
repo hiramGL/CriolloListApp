@@ -3,13 +3,22 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
+/* 
+This page is for the simple login process for a user, 
+with the additional prompt to sign up if the user does not have an account
+and to go back to the home page if the user does not want to login.
 
+
+*/
 export default function LoginPage() {
   const router = useRouter()
 
   return (
+    //header tag for entire page, tailwind css for styling.
     <main className="min-h-screen flex flex-col items-center justify-center px-4">
+
       <h1 className="text-3xl font-bold mb-6">Login</h1>
+      
       <form className="w-full max-w-sm space-y-4">
         <div>
           <label htmlFor="email" className="block text-sm font-medium mb-1">
