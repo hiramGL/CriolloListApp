@@ -1,28 +1,69 @@
 "use client"
+import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+
 export default function ProfilePage() {
-    const router = useRouter() 
+  const router = useRouter()
+
+  // Temporary mock state for services
+  const [services, setServices] = useState([
+    {
+      id: 1,
+      title: "Logo Design",
+      price: "$50",
+      description: "Simple and effective logos tailored to your brand.",
+    },
+    {
+      id: 2,
+      title: "Social Media Graphics",
+      price: "Negotiable",
+      description: "Custom graphics to enhance your online presence.",
+    },
+  ])
+
+  // Add new service
+  const handleAddService = () => {
+    const newService = {
+      id: Date.now(),
+      title: "New Service",
+      price: "$0",
+      description: "Description of the new service.",
+    }
+    setServices([...services, newService])
+  }
+
+  // Delete service by ID
+  const handleDeleteService = (id: number) => {
+    setServices(services.filter(service => service.id !== id))
+  }
+
   return (
-    
     <main className="max-w-4xl mx-auto px-6 py-10 text-gray-900">
       {/* Header */}
-      <section className="flex flex-col sm:flex-row items-center gap-6 mb-8">
       <div className="flex justify-end mb-6">
-        <Button
-          variant="outline"
-          className="rounded-xl px-4 py-2 text-sm"
-          onClick={() => router.push("/")}
-        >
-          Home
-        </Button>
-      </div>
-        <div className="w-24 h-24 rounded-full bg-green-100 overflow-hidden">
-          <Image src="/default-avatar.png" alt="Profile" width={96} height={96} className="object-cover" />
+          <Button
+            variant="outline"
+            className="rounded-xl px-4 py-2 text-sm"
+            onClick={() => router.push("/")}
+          >
+            Home
+          </Button>
         </div>
+      <section className="flex flex-col sm:flex-row items-center gap-6 mb-8">
         
+        <div className="w-24 h-24 rounded-full bg-green-100 overflow-hidden">
+          <Image
+            src="/profile_pic.png"
+            alt="Profile"
+            width={96}
+            height={96}
+            className="object-cover"
+          />
+        </div>
+
         <div>
           <h1 className="text-2xl font-bold">Jessica Morales</h1>
           <p className="text-green-700">Graphic Designer</p>
@@ -41,29 +82,39 @@ export default function ProfilePage() {
 
       {/* Services Offered */}
       <section className="mb-8">
-        <div className="flex justify-between items-center mb-2">
+        <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Services Offered</h2>
-          <Button className="rounded-xl px-4 py-1 text-sm">Contact Me</Button>
+          <div className="flex gap-2">
+            <Button
+              className="rounded-xl px-3 py-1 text-sm"
+              variant="outline"
+              onClick={handleAddService}
+            >
+              + Add Service
+            </Button>
+          </div>
         </div>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <Card className="shadow-sm rounded-xl">
-            <CardContent className="p-4">
-              <div className="flex justify-between items-center mb-1">
-                <p className="font-medium">Logo Design</p>
-                <span className="text-sm font-semibold">$50</span>
-              </div>
-              <p className="text-sm text-gray-600">Simple and effective logos tailored to your brand.</p>
-            </CardContent>
-          </Card>
-          <Card className="shadow-sm rounded-xl">
-            <CardContent className="p-4">
-              <div className="flex justify-between items-center mb-1">
-                <p className="font-medium">Social Media Graphics</p>
-                <span className="text-sm font-semibold">Negotiable</span>
-              </div>
-              <p className="text-sm text-gray-600">Custom graphics to enhance your online presence.</p>
-            </CardContent>
-          </Card>
+          {services.map(service => (
+            <Card key={service.id} className="shadow-sm rounded-xl relative">
+              <CardContent className="p-4">
+                <div className="flex justify-between items-center mb-1">
+                  <p className="font-medium">{service.title}</p>
+                  <span className="text-sm font-semibold">{service.price}</span>
+                </div>
+                <p className="text-sm text-gray-600">{service.description}</p>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="text-red-500 absolute top-2 right-2 text-xs"
+                  onClick={() => handleDeleteService(service.id)}
+                >
+                  Delete
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 

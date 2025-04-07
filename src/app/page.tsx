@@ -41,7 +41,7 @@ export default function Home() {
       <Link href="/profile">My Profile</Link>
     </li>
     <li>
-      <Link href="/coming-soon">Messages</Link>
+      <Link href="/messages">Messages</Link>
     </li>
     <li>
       <Link href="/events">Events</Link>
