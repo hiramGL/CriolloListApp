@@ -10,6 +10,7 @@ import Link from "next/link";
 import { link } from "fs"
 
 export default function Home() {
+  // Categories for the dropdown menu and icons
   const categories = [
     { name: "Design", icon: <FaPaintBrush /> },
     { name: "Tutoring", icon: <FaChalkboardTeacher /> },
