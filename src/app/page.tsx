@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu"
 import { FaPaintBrush, FaChalkboardTeacher, FaMoneyBillWave, FaShoppingCart, FaSpa, FaCalendarAlt } from "react-icons/fa";
+import { supabase } from "@/lib/clients"
 import Image from "next/image";
 import Link from "next/link";
 import { link } from "fs"
@@ -57,7 +58,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="grid grid-cols-1 md:grid-cols-2 items-center gap-10">
         <div>
-          <h2 className="text-3xl font-bold mb-4">Discover Student Services, Made for You</h2>
+          <h2 className="text-3xl font-bold mb-4">Discover Student Services</h2>
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <Input placeholder="Search" />
             <DropdownMenu>
@@ -70,7 +71,9 @@ export default function Home() {
                 <DropdownMenuItem>Finance</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
+            <Link href="/categories" className="hidden md:block">
             <Button>Search</Button>
+            </Link>
           </div>
         </div>
         <div className="hidden md:block">
