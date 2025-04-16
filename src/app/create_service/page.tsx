@@ -53,8 +53,17 @@ export default function CreateServicePage() {
         setLoading(true)
         setError(null)
 
+        const { data: { user } } = await supabase.auth.getUser() // Get the authenticated user
+
+        // Prepare the data to insert
+        const serviceData = {
+            ...formData, // Copy all fields from formData
+            user_id: user?.id || null, // Add user_id if available
+        }
+
         try {
-            const { data, error } = await supabase.from('services').insert([formData])
+            // Insert the data into the 'services' table
+            const { data, error } = await supabase.from('services').insert([serviceData])
             if (error) {
                 console.error('Error creating service:', error)
                 setError('Failed to create service. Please try again.')
