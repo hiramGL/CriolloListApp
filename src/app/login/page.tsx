@@ -34,7 +34,9 @@ export default function LoginPage() {
   }
 
   return (
+    //header tag for entire page, tailwind css for styling.
     <main className="min-h-screen flex flex-col items-center justify-center px-4">
+
       <h1 className="text-3xl font-bold mb-6">Login</h1>
 
       {error && <p className="text-red-600 mb-4">{error}</p>}

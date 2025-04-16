@@ -1,41 +1,75 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "next/navigation"
+import { supabase } from "@/lib/clients"
+
+/*
+This page dynamically fetches categories and services from the Supabase database
+and allows users to search for services by category or keyword.
+*/
 
 export default function CategoriesPage() {
     const router = useRouter()
     const [searchTerm, setSearchTerm] = useState("")
     const [selectedCategory, setSelectedCategory] = useState("")
-    const [services, setServices] = useState<{ id: number; name: string; category: string }[]>([]) // Placeholder for fetched services
+    const [categories, setCategories] = useState<string[]>([]) // Categories fetched from the database
+    const [services, setServices] = useState<
+        { id: string; user_id: string; title: string; description: string; category_id: number; contact_email: string; contact_phone: string; image_urls: string; created_at: Date }[]
+    >([]) // Services fetched from the database
 
-    // Placeholder categories (replace with database data in the future)
-    const categories = [
-        "Design",
-        "Tutoring",
-        "Finance",
-        "Engineering",
-        "Health",
-        "Technology",
-    ]
+    // Fetch categories from the Supabase database
+    const fetchCategories = async () => {
+        const { data, error } = await supabase.from("categories").select("name")
+        if (error) {
+            console.error("Error fetching categories:", error)
+            return
+        }
+        setCategories(data.map((category) => category.name)) // Extract category names
+    }
 
-    // Placeholder for fetching services (to be replaced with actual database logic)
-    const fetchServices = async () => {
-        // Simulate fetching data
-        const mockServices = [
-            { id: 1, name: "Logo Design", category: "Design" },
-            { id: 2, name: "Math Tutoring", category: "Tutoring" },
-            { id: 3, name: "Tax Consulting", category: "Finance" },
-        ]
-        const filteredServices = mockServices.filter(
-            (service) =>
-                service.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-                (selectedCategory ? service.category === selectedCategory : true)
-        )
+    // Fetch all services from the Supabase database
+    const fetchServices = async (applyFilters = true) => {
+        const { data, error } = await supabase
+            .from("services")
+            .select("*")
+            .order("created_at", { ascending: false }) // Order by created_at in descending order
+
+        if (error) {
+            console.error("Error fetching services:", error)
+            return
+        }
+
+        console.log("Fetched services:", data) // Log the fetched data
+
+        // Apply filters if needed
+        const filteredServices = applyFilters
+            ? data
+                  .filter(
+                      (service) =>
+                          service.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+                          (selectedCategory ? service.category_id === parseInt(selectedCategory) : true)
+                  )
+                  .map((service) => ({
+                      ...service,
+                      created_at: new Date(service.created_at), // Convert created_at to a Date object
+                  }))
+            : data.map((service) => ({
+                  ...service,
+                  created_at: new Date(service.created_at), // Convert created_at to a Date object
+              }))
+
+        console.log("Filtered services:", filteredServices) // Log the filtered data
         setServices(filteredServices)
     }
+
+    // Fetch categories and all services on component mount
+    useEffect(() => {
+        fetchCategories()
+        fetchServices(false) // Fetch all services without filters by default
+    }, [])
 
     return (
         <main className="min-h-screen p-6 bg-gray-50">
@@ -56,33 +90,48 @@ export default function CategoriesPage() {
                     className="border border-gray-300 rounded-md p-2"
                 >
                     <option value="">All Categories</option>
-                    {categories.map((category) => (
-                        <option key={category} value={category}>
+                    {categories.map((category, index) => (
+                        <option key={index} value={index + 1}>
                             {category}
                         </option>
                     ))}
                 </select>
-                <Button onClick={fetchServices}>Search</Button>
+                <Button onClick={() => fetchServices()}>Search</Button>
             </div>
 
             {/* Results Section */}
             <section>
                 {services.length > 0 ? (
-                    <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {services.map((service) => (
-                            <li
-                                key={service.id}
-                                className="p-4 border border-gray-300 rounded-md shadow-sm"
-                            >
-                                <h2 className="text-lg font-semibold">{service.name}</h2>
-                                <p className="text-sm text-gray-600">{service.category}</p>
-                            </li>
-                        ))}
-                    </ul>
+                    <table className="table-auto w-full border-collapse border border-gray-300">
+                        <thead>
+                            <tr className="bg-gray-100">
+                                <th className="border border-gray-300 p-2">Title</th>
+                                <th className="border border-gray-300 p-2">Description</th>
+                                <th className="border border-gray-300 p-2">Email</th>
+                                <th className="border border-gray-300 p-2">Phone</th>
+                                <th className="border border-gray-300 p-2">Created At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {services.map((service) => (
+                                <tr key={service.id} className="hover:bg-gray-50">
+                                    <td className="border border-gray-300 p-2">{service.title}</td>
+                                    <td className="border border-gray-300 p-2">{service.description}</td>
+                                    <td className="border border-gray-300 p-2">{service.contact_email}</td>
+                                    <td className="border border-gray-300 p-2">{service.contact_phone}</td>
+                                    <td className="border border-gray-300 p-2">
+                                        {new Date(service.created_at).toLocaleDateString()}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 ) : (
                     <p className="text-gray-600">No services found. Try a different search.</p>
                 )}
             </section>
+
+            {/* Back to Home Button */}
             <Button
                 variant="outline"
                 className="mt-4"
