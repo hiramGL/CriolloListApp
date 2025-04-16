@@ -5,6 +5,7 @@ import { supabase } from '@/lib/clients'
 
 export default function CreateServicePage() {
     const [formData, setFormData] = useState({
+        user_id: '',
         title: '',
         description: '',
         category_id: 0,
@@ -17,6 +18,7 @@ export default function CreateServicePage() {
     const [loading, setLoading] = useState(false) // Loading state for form submission
     const [error, setError] = useState<string | null>(null) // Error state
 
+    
     // Fetch categories from the Supabase database
     const fetchCategories = async () => {
         try {
@@ -52,9 +54,16 @@ export default function CreateServicePage() {
         e.preventDefault()
         setLoading(true)
         setError(null)
+        
+        const { data: { user}} = await supabase.auth.getUser()
 
+        const serviceData = {
+            ...formData,
+            user_id: user?.id || null, // Get the logged-in user's ID
+        }
+        console.log('Service data:', serviceData)
         try {
-            const { data, error } = await supabase.from('services').insert([formData])
+            const { data, error } = await supabase.from('services').insert([serviceData])
             if (error) {
                 console.error('Error creating service:', error)
                 setError('Failed to create service. Please try again.')
@@ -63,6 +72,7 @@ export default function CreateServicePage() {
             console.log('Service created successfully:', data)
             alert('Service created successfully!')
             setFormData({
+                user_id: '',
                 title: '',
                 description: '',
                 category_id: 0,
