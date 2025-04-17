@@ -7,7 +7,6 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { FaPaintBrush, FaChalkboardTeacher, FaMoneyBillWave, FaShoppingCart, FaSpa, FaCalendarAlt } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
-import { link } from "fs"
 import { supabase } from "@/lib/supabaseClient";
 
 export default function Home() {

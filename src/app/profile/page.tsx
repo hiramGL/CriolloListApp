@@ -88,7 +88,7 @@ export default function ProfilePage() {
             <Button
               className="rounded-xl px-3 py-1 text-sm"
               variant="outline"
-              onClick={handleAddService}
+              onClick={() => router.push("/create_service")}
             >
               + Add Service
             </Button>
