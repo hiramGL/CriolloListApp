@@ -128,7 +128,7 @@ export default function Home() {
         <h3 className="text-xl font-semibold mb-4">Departamento de Actividades Sociales & Culturales</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { name: "Main Page", href: "https://www.uprm.edu/p/actividades-sociales/portada" },
+            { name: "Available Campus Services", href: "https://www.uprm.edu/p/actividades-sociales/servicios" },
             { name: "Documents and Policies", href: "https://www.uprm.edu/p/actividades-sociales/reglamentos_y_documentos" },
             { name: "Reserve Space for Student Activities", href: "https://www.uprm.edu/p/actividades-sociales/actividades_estudiantiles_y_espacios" },
           ].map((resource) => (
