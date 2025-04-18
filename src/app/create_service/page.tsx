@@ -55,15 +55,20 @@ export default function CreateServicePage() {
         setLoading(true)
         setError(null)
         
+        // user ID associated with the logged-in user
         const { data: { user}} = await supabase.auth.getUser()
-
+        
+        // serviceData, apart from having userID, will have the form data filled in by users
         const serviceData = {
             ...formData,
-            user_id: user?.id || null, // Get the logged-in user's ID
+            user_id: user?.id || null, 
         }
+        // debugging
         console.log('Service data:', serviceData)
         try {
+            // insert serviceData as a new row in the services table
             const { data, error } = await supabase.from('services').insert([serviceData])
+            // Error handling vvv 
             if (error) {
                 console.error('Error creating service:', error)
                 setError('Failed to create service. Please try again.')
@@ -89,6 +94,8 @@ export default function CreateServicePage() {
     }
 
     return (
+        // Main container for the page 
+        // Formatting form with css classes...
         <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Create a Service</h1>
             {error && <p className="text-red-500 mb-4">{error}</p>}
