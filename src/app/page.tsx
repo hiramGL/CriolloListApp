@@ -6,7 +6,9 @@ import { supabase } from '@/lib/supabaseClient';
 
 export default function LandingPage() {
   const router = useRouter();
-
+  
+//LANDING PAGE WHEN USER IS NOT LOGGED IN OR NOT AUTHENTICATED
+// Redirect to login or home based on session status && EMAIL VERIFICATION
   useEffect(() => {
     // Check session when page loads
     supabase.auth.getSession().then(({ data: { session } }) => {
