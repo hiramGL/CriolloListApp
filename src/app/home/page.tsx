@@ -122,14 +122,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Boost Your Business */}
+      {/* Additional/External Resources */}
       <section className="mt-16">
-        <h3 className="text-xl font-semibold mb-4">Boost Your Business</h3>
+        <h3 className="text-xl font-semibold mb-4">Departamento de Actividades Sociales & Culturales</h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {["Starting a Business", "Marketing Tips", "Free Certifications"].map((resource) => (
-            <Card key={resource}className="rounded-xl shadow-sm transition-colors duration-200 hover:bg-green-100 hover:text-green-800">
-              <CardContent className="p-6 text-center font-medium">{resource}</CardContent>
-            </Card>
+          {[
+            { name: "Available Campus Services", href: "https://www.uprm.edu/p/actividades-sociales/servicios" },
+            { name: "Documents and Policies", href: "https://www.uprm.edu/p/actividades-sociales/reglamentos_y_documentos" },
+            { name: "Reserve Space for Student Activities", href: "https://www.uprm.edu/p/actividades-sociales/actividades_estudiantiles_y_espacios" },
+          ].map((resource) => (
+            <Link key={resource.name} href={resource.href} passHref>
+              <Card className="rounded-xl shadow-sm transition-colors duration-200 hover:bg-green-100 hover:text-green-800 cursor-pointer">
+                <CardContent className="p-6 text-center font-medium">{resource.name}</CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       </section>
