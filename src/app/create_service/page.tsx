@@ -2,8 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/clients'
+import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/button'
 
 export default function CreateServicePage() {
+    const router = useRouter()
     const [formData, setFormData] = useState({
         user_id: '',
         title: '',
@@ -197,6 +200,14 @@ export default function CreateServicePage() {
                     {loading ? 'Creating...' : 'Create Service'}
                 </button>
             </form>
+                        {/* Back to Home Button */}
+                        <Button
+                variant="outline"
+                className="mt-4"
+                onClick={() => router.push("/")}
+            >
+                Back to Home
+            </Button>
         </div>
     )
 }

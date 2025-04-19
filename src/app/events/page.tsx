@@ -2,8 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/clients'
+import { useRouter } from 'next/navigation'
+import { Button } from "@/components/ui/button"
 
 export default function CreateEventPage() {
+    const router = useRouter()
     const [formData, setFormData] = useState({
         title: '',
         description: '',
@@ -269,6 +272,19 @@ export default function CreateEventPage() {
                     <p className="text-gray-600">No events found for the selected month.</p>
                 )}
             </section>
+            {/* Back to Home Button */}
+            <Button
+                variant="outline"
+                className="mt-4"
+                onClick={() => router.push("/")}
+            >
+                Back to Home
+            </Button>
+
+            
         </div>
+
+
+        
     )
 }
