@@ -26,30 +26,57 @@ export default function SignUpPage() {
     e.preventDefault();
     setError('');
     setLoading(true);
-
+  
     // 1. Create account
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
     });
-
+  
     if (authError) {
       setError(authError.message);
       setLoading(false);
-      console.log('authData:', authData);
-
       return;
     }
-
-    if (!authData.session) {
-      // No active session means email confirmation is required
-      router.replace('/verify-email');
-      return;
+  
+    const userId = authData.user?.id;
+  
+    // 2. Delay profile update slightly to wait for the trigger to insert the row
+    if (userId) {
+      setTimeout(async () => {
+        const { error: updateError, data } = await supabase
+          .from('users')
+          .update({
+            full_name: fullName,
+            username,
+            academic_year: academicYear,
+            major,
+          })
+          .eq('id', userId);
+  
+        console.log("Update result:", { data, updateError });
+  
+        if (updateError) {
+          console.error('Failed to update user info:', updateError.message);
+          setError('Account created, but failed to save your profile info.');
+        }
+  
+        // 3. Redirect after update
+        if (!authData.session) {
+          router.replace('/verify-email');
+        } else {
+          router.replace('/home');
+        }
+  
+        setLoading(false);
+      }, 1000); // wait 1000ms before running update
+    } else {
+      setLoading(false);
+      setError('Something went wrong. No user ID returned.');
     }
-    
-    // 3. Redirect to app home
-    router.replace('/home');
   }
+  
+  
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center px-4">
