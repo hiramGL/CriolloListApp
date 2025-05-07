@@ -34,16 +34,25 @@ export default function LoginPage() {
   }
 
   return (
-    //header tag for entire page, tailwind css for styling.
-    <main className="min-h-screen flex flex-col items-center justify-center px-4">
+    <main
+      className="min-h-screen flex flex-col items-center justify-center px-4 bg-cover bg-center"
+      style={{
+        backgroundImage: "url('/campus-area.jpg')",
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        backgroundBlendMode: "overlay",
+      }}
+    >
+      <h1 className="text-3xl font-extrabold mb-8 text-white">Welcome to CriolloList!</h1>
+      <h2 className="text-3xl font-bold mb-6 text-white">Login</h2>
 
-      <h1 className="text-3xl font-bold mb-6">Login</h1>
+      {error && <p className="text-red-600 mb-4 bg-white p-2 rounded shadow">{error}</p>}
 
-      {error && <p className="text-red-600 mb-4">{error}</p>}
-
-      <form onSubmit={handleLogin} className="w-full max-w-sm space-y-4">
+      <form
+        onSubmit={handleLogin}
+        className="w-full max-w-sm space-y-4 bg-white p-6 rounded-lg shadow-lg"
+      >
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1">
+          <label htmlFor="email" className="block text-sm font-medium mb-1 text-gray-700">
             Email
           </label>
           <Input
@@ -52,11 +61,12 @@ export default function LoginPage() {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="border-gray-300 focus:ring-green-500 focus:border-green-500"
             required
           />
         </div>
         <div>
-          <label htmlFor="password" className="block text-sm font-medium mb-1">
+          <label htmlFor="password" className="block text-sm font-medium mb-1 text-gray-700">
             Password
           </label>
           <Input
@@ -65,17 +75,26 @@ export default function LoginPage() {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="border-gray-300 focus:ring-green-500 focus:border-green-500"
             required
           />
         </div>
-        <Button type="submit" className="w-full" disabled={loading}>
+        <Button
+          type="submit"
+          className="w-full bg-green-600 hover:bg-green-700 text-white"
+          disabled={loading}
+        >
           {loading ? "Logging in..." : "Login"}
         </Button>
       </form>
 
-      <p className="mt-4 text-sm text-gray-600">
+      <p className="mt-4 text-sm text-gray-300">
         Don't have an account?{" "}
-        <Button variant="link" onClick={() => router.push("/sign-up")}>
+        <Button
+          variant="link"
+          className="text-green-400 hover:underline"
+          onClick={() => router.push("/sign-up")}
+        >
           Sign Up
         </Button>
       </p>
