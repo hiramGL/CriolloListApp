@@ -19,7 +19,7 @@ export default function SignUpPage() {
   const [password, setPassword] = useState('');
 
   // Step 2
-  const [academicYear, setAcademicYear] = useState('');
+  const [academicYear, setAcademicYear] = useState<string>('');
   const [major, setMajor] = useState('');
 
   async function handleSignUp(e: React.FormEvent) {
@@ -31,6 +31,14 @@ export default function SignUpPage() {
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+      data: {
+        fullName,
+        username,
+        major,
+        academic_year: academicYear,
+      },
+      },
     });
   
     if (authError) {
@@ -38,42 +46,19 @@ export default function SignUpPage() {
       setLoading(false);
       return;
     }
-  
-    const userId = authData.user?.id;
+    
+    
   
     // 2. Delay profile update slightly to wait for the trigger to insert the row
-    if (userId) {
-      setTimeout(async () => {
-        const { error: updateError, data } = await supabase
-          .from('users')
-          .update({
-            full_name: fullName,
-            username,
-            academic_year: academicYear,
-            major,
-          })
-          .eq('id', userId);
-  
-        console.log("Update result:", { data, updateError });
-  
-        if (updateError) {
-          console.error('Failed to update user info:', updateError.message);
-          setError('Account created, but failed to save your profile info.');
-        }
-  
-        // 3. Redirect after update
-        if (!authData.session) {
-          router.replace('/verify-email');
-        } else {
-          router.replace('/home');
-        }
-  
-        setLoading(false);
-      }, 1000); // wait 1000ms before running update
+    
+      
+       // 3. Redirect after update
+    if (!authData.session) {
+      router.replace('/verify-email');
     } else {
-      setLoading(false);
-      setError('Something went wrong. No user ID returned.');
-    }
+        router.replace('/home');
+        }
+  
   }
   
   
@@ -125,10 +110,10 @@ export default function SignUpPage() {
               </label>
               <Input
                 id="academicYear"
-                type="text"
+                type="number"
                 value={academicYear}
                 onChange={e => setAcademicYear(e.target.value)}
-                placeholder="e.g., 1st, 2nd, etc."
+                placeholder="e.g., 1, 2, 3, etc."
                 required
               />
             </div>
