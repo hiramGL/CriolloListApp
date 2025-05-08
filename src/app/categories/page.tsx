@@ -72,8 +72,8 @@ export default function CategoriesPage() {
     }, [])
 
     return (
-        <main className="min-h-screen p-6 bg-gray-50">
-            <h1 className="text-3xl font-bold mb-6">Search Services by Category</h1>
+        <main className="min-h-screen p-6">
+            <h1 className="text-3xl font-bold mb-6 text-white">Search for Services</h1>
 
             {/* Search and Filter Section */}
             <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -87,7 +87,7 @@ export default function CategoriesPage() {
                 <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="border border-gray-300 rounded-md p-2"
+                    className="border border-gray-300 rounded-md p-2 text-green"
                 >
                     <option value="">All Categories</option>
                     {categories.map((category, index) => (
@@ -127,7 +127,7 @@ export default function CategoriesPage() {
                         </tbody>
                     </table>
                 ) : (
-                    <p className="text-gray-600">No services found. Try a different search.</p>
+                    <p className="text-white">No services found. Try a different search.</p>
                 )}
             </section>
 

@@ -22,13 +22,7 @@ export default function Home() {
 
   return (
     <main
-      className="min-h-screen bg-[#f9fafb] text-gray-800 p-6 bg-cover bg-center"
-      style={{
-        backgroundImage: "url('/green-paw-pattern.jpg')",
-        backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay for better contrast
-        backgroundBlendMode: "overlay",
-      }}
-    >
+      className="min-h-screen text-gray-800 p-6">
       {/* Top Nav */}
       <nav className="flex justify-between items-center py-4 mb-8 text-gray-100">
         <Link href="/" className="text-2xl font-bold text-green-300 hover:text-green-400">
