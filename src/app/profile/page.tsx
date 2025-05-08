@@ -1,12 +1,14 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
+import { supabase } from "@/lib/supabaseClient";
 
 export default function ProfilePage() {
   const router = useRouter()
+  const[userName, setUserName] = useState("Loading...")
 
   // Temporary mock state for services
   const [services, setServices] = useState([
@@ -23,6 +25,37 @@ export default function ProfilePage() {
       description: "Custom graphics to enhance your online presence.",
     },
   ])
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser()
+
+      if (authError || !user) {
+        console.error("Auth error:", authError)
+        setUserName("User")
+        return
+      }
+
+      const { data, error } = await supabase
+        .from("users")
+        .select("full_name")
+        .eq("id", user.id)
+        .single()
+
+      if (error) {
+        console.error("Error fetching full_name:", error)
+        setUserName("User")
+      } else {
+        setUserName(data.full_name)
+      }
+    }
+    console.log(userName)
+    fetchUserName()
+  }, [])
+  
 
   // Add new service
   const handleAddService = () => {
@@ -65,7 +98,7 @@ export default function ProfilePage() {
         </div>
 
         <div>
-          <h1 className="text-2xl font-bold">Jessica Morales</h1>
+          <h1 className="text-2xl font-bold">{userName}</h1>
           <p className="text-green-700">Graphic Designer</p>
           <p className="text-sm text-green-600 mt-1">● Available online</p>
         </div>
