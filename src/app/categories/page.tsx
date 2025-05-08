@@ -82,21 +82,26 @@ export default function CategoriesPage() {
                     placeholder="Search for a service..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="flex-1"
+                    className="flex-1 border border-gray-300 rounded-md p-2 text-green bg-gray-50"
                 />
                 <select
                     value={selectedCategory}
                     onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="border border-gray-300 rounded-md p-2 text-green"
+                    className="border border-gray-300 rounded-md p-2 text-green bg-gray-50"
                 >
-                    <option value="">All Categories</option>
+                    <option 
+                    value="">All Categories</option>
                     {categories.map((category, index) => (
-                        <option key={index} value={index + 1}>
+                        <option 
+                        key={index} value={index + 1}>
                             {category}
                         </option>
                     ))}
                 </select>
-                <Button onClick={() => fetchServices()}>Search</Button>
+                <Button
+                    variant="outline"
+                    className="bg-green-500 text-white hover:bg-green-600" 
+                onClick={() => fetchServices()}>Search</Button>
             </div>
 
             {/* Results Section */}
@@ -104,7 +109,7 @@ export default function CategoriesPage() {
                 {services.length > 0 ? (
                     <table className="table-auto w-full border-collapse border border-gray-300">
                         <thead>
-                            <tr className="bg-gray-100">
+                            <tr className="bg-green-100">
                                 <th className="border border-gray-300 p-2">Title</th>
                                 <th className="border border-gray-300 p-2">Description</th>
                                 <th className="border border-gray-300 p-2">Email</th>
@@ -114,7 +119,7 @@ export default function CategoriesPage() {
                         </thead>
                         <tbody>
                             {services.map((service) => (
-                                <tr key={service.id} className="hover:bg-gray-50">
+                                <tr key={service.id} className="bg-gray-50">
                                     <td className="border border-gray-300 p-2">{service.title}</td>
                                     <td className="border border-gray-300 p-2">{service.description}</td>
                                     <td className="border border-gray-300 p-2">{service.contact_email}</td>
@@ -134,7 +139,7 @@ export default function CategoriesPage() {
             {/* Back to Home Button */}
             <Button
                 variant="outline"
-                className="mt-4"
+                className="mt-4 bg-green-500 text-white hover:bg-green-600"
                 onClick={() => router.push("/")}
             >
                 Back to Home

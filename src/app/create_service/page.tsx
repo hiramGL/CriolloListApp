@@ -100,11 +100,11 @@ export default function CreateServicePage() {
         // Main container for the page 
         // Formatting form with css classes...
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Create a Service</h1>
+            <h1 className="text-2xl font-bold mb-4 text-green-500">Create a Service</h1>
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label htmlFor="title" className="block font-medium">
+                    <label htmlFor="title" className="block font-medium text-green-500">
                         Title
                     </label>
                     <input
@@ -113,12 +113,12 @@ export default function CreateServicePage() {
                         name="title"
                         value={formData.title}
                         onChange={handleChange}
-                        className="w-full border rounded p-2"
+                        className="w-full border rounded p-2 bg-gray-50"
                         required
                     />
                 </div>
                 <div>
-                    <label htmlFor="description" className="block font-medium">
+                    <label htmlFor="description" className="block font-medium text-green-500">
                         Description
                     </label>
                     <textarea
@@ -126,12 +126,12 @@ export default function CreateServicePage() {
                         name="description"
                         value={formData.description}
                         onChange={handleChange}
-                        className="w-full border rounded p-2"
+                        className="w-full border rounded p-2 bg-gray-50"
                         required
                     />
                 </div>
                 <div>
-                    <label htmlFor="category_id" className="block font-medium">
+                    <label htmlFor="category_id" className="block font-medium text-green-500">
                         Category
                     </label>
                     <select
@@ -139,7 +139,7 @@ export default function CreateServicePage() {
                         name="category_id"
                         value={formData.category_id}
                         onChange={handleChange}
-                        className="w-full border rounded p-2"
+                        className="w-full border rounded p-2 bg-gray-50"
                         required
                     >
                         <option value={0}>Select a category</option>
@@ -151,7 +151,7 @@ export default function CreateServicePage() {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="contact_email" className="block font-medium">
+                    <label htmlFor="contact_email" className="block font-medium text-green-500">
                         Contact Email
                     </label>
                     <input
@@ -160,12 +160,12 @@ export default function CreateServicePage() {
                         name="contact_email"
                         value={formData.contact_email}
                         onChange={handleChange}
-                        className="w-full border rounded p-2"
+                        className="w-full border rounded p-2 bg-gray-50"
                         required
                     />
                 </div>
                 <div>
-                    <label htmlFor="contact_phone" className="block font-medium">
+                    <label htmlFor="contact_phone" className="block font-medium text-green-500">
                         Contact Phone
                     </label>
                     <input
@@ -174,12 +174,12 @@ export default function CreateServicePage() {
                         name="contact_phone"
                         value={formData.contact_phone}
                         onChange={handleChange}
-                        className="w-full border rounded p-2"
+                        className="w-full border rounded p-2 bg-gray-50"
                         required
                     />
                 </div>
                 <div>
-                    <label htmlFor="image_urls" className="block font-medium">
+                    <label htmlFor="image_urls" className="block font-medium text-green-500">
                         Image URLs
                     </label>
                     <input
@@ -188,7 +188,7 @@ export default function CreateServicePage() {
                         name="image_urls"
                         value={formData.image_urls}
                         onChange={handleChange}
-                        className="w-full border rounded p-2"
+                        className="w-full border rounded p-2 bg-gray-50"
                         required
                     />
                 </div>
@@ -203,7 +203,7 @@ export default function CreateServicePage() {
                         {/* Back to Home Button */}
                         <Button
                 variant="outline"
-                className="mt-4"
+                className="mt-4 bg-green-500 text-white hover:bg-green-600"
                 onClick={() => router.push("/")}
             >
                 Back to Home

@@ -241,19 +241,20 @@ export default function CreateEventPage() {
 
       {/* Month Filter */}
       <div className="mt-8">
-        <label htmlFor="month" className="block font-medium mb-2 text-gray-700">
+        <label htmlFor="month" className="block font-medium mb-2 text-white">
           Filter by Month
         </label>
         <select
           id="month"
           value={selectedMonth}
           onChange={handleMonthChange}
-          className="border-gray-300 rounded p-2 focus:ring-green-500 focus:border-green-500"
+          className="border-gray-300 rounded p-2 focus:ring-green-500 focus:border-green-500 bg-gray-800 text-white"
+          style={{ scrollBehavior: 'smooth' }}
         >
           {Array.from({ length: 12 }, (_, i) => (
-            <option key={i + 1} value={i + 1}>
-              {new Date(0, i).toLocaleString('default', { month: 'long' })}
-            </option>
+        <option key={i + 1} value={i + 1}>
+          {new Date(0, i).toLocaleString('default', { month: 'long' })}
+        </option>
           ))}
         </select>
       </div>
@@ -279,7 +280,7 @@ export default function CreateEventPage() {
             ))}
           </ul>
         ) : (
-          <p className="text-gray-600">No events found for the selected month.</p>
+          <p className="text-white">No events found for the selected month.</p>
         )}
       </section>
 
