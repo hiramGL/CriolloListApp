@@ -11,6 +11,7 @@ export default function CreateServicePage() {
         user_id: '',
         title: '',
         description: '',
+        price: '',
         category_id: 0,
         contact_email: '',
         contact_phone: '',
@@ -83,6 +84,7 @@ export default function CreateServicePage() {
                 user_id: '',
                 title: '',
                 description: '',
+                price: '',
                 category_id: 0,
                 contact_email: '',
                 contact_phone: '',
@@ -130,6 +132,21 @@ export default function CreateServicePage() {
                         required
                     />
                 </div>
+
+                <div>
+                    <label htmlFor="price" className="block font-medium">Price</label>
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        value={formData.price}
+                        onChange={handleChange}
+                        className="w-full border rounded p-2"
+                        placeholder="e.g. 25.00"
+                        required
+                    />
+                </div>
+
                 <div>
                     <label htmlFor="category_id" className="block font-medium">
                         Category

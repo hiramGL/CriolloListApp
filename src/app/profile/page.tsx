@@ -9,25 +9,13 @@ import { supabase } from "@/lib/supabaseClient";
 export default function ProfilePage() {
   const router = useRouter()
   const[userName, setUserName] = useState("Loading...")
+  const [services, setServices] = useState<any[]>([])
+  const [loadingServices, setLoadingServices] = useState(true)
 
-  // Temporary mock state for services
-  const [services, setServices] = useState([
-    {
-      id: 1,
-      title: "Logo Design",
-      price: "$50",
-      description: "Simple and effective logos tailored to your brand.",
-    },
-    {
-      id: 2,
-      title: "Social Media Graphics",
-      price: "Negotiable",
-      description: "Custom graphics to enhance your online presence.",
-    },
-  ])
+ 
 
   useEffect(() => {
-    const fetchUserName = async () => {
+    const fetchUserNameAndServices = async () => {
       const {
         data: { user },
         error: authError,
@@ -36,6 +24,7 @@ export default function ProfilePage() {
       if (authError || !user) {
         console.error("Auth error:", authError)
         setUserName("User")
+        setLoadingServices(false)
         return
       }
 
@@ -51,9 +40,23 @@ export default function ProfilePage() {
       } else {
         setUserName(data.full_name)
       }
+      // Get user's services
+      const { data: serviceData, error: serviceError } = await supabase
+        .from("services")
+        .select("id, title, price, description")
+        .eq("user_id", user.id)
+
+      if (serviceError) {
+        console.error("Error fetching services:", serviceError)
+        setServices([])
+      } else {
+        setServices(serviceData || [])
+      }
+
+      setLoadingServices(false)
     }
-    console.log(userName)
-    fetchUserName()
+
+    fetchUserNameAndServices()
   }, [])
   
 
@@ -69,7 +72,17 @@ export default function ProfilePage() {
   }
 
   // Delete service by ID
-  const handleDeleteService = (id: number) => {
+  const handleDeleteService = async (id: string) => {
+    console.log("Deleting service with ID:", id)
+    const{error}= await supabase
+      .from("services")
+      .delete()
+      .eq("id", id)
+    if (error) { 
+      console.error("Error deleting service:", error)
+      alert("Failed to delete service. Please try again.")
+        return
+    }
     setServices(services.filter(service => service.id !== id))
   }
 
@@ -128,27 +141,33 @@ export default function ProfilePage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {services.map(service => (
-            <Card key={service.id} className="shadow-sm rounded-xl relative">
-              <CardContent className="p-4">
-                <div className="flex justify-between items-center mb-1">
-                  <p className="font-medium">{service.title}</p>
-                  <span className="text-sm font-semibold">{service.price}</span>
-                </div>
-                <p className="text-sm text-gray-600">{service.description}</p>
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  className="text-red-500 absolute top-2 right-2 text-xs"
-                  onClick={() => handleDeleteService(service.id)}
-                >
-                  Delete
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        {loadingServices ? (
+          <p className="text-sm text-gray-500 italic">Loading services...</p>
+        ) : services.length === 0 ? (
+          <p className="text-sm text-gray-500 italic">No services created yet</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {services.map(service => (
+              <Card key={service.id} className="shadow-sm rounded-xl relative">
+                <CardContent className="p-4">
+                  <div className="flex justify-between items-center mb-1">
+                    <p className="font-medium">{service.title}</p>
+                    <span className="text-sm font-semibold">${service.price}</span>
+                  </div>
+                  <p className="text-sm text-gray-600">{service.description}</p>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="text-red-500 absolute top-2 right-2 text-xs"
+                    onClick={() => handleDeleteService(service.id)}
+                  >
+                    Delete
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Portfolio */}
@@ -160,7 +179,7 @@ export default function ProfilePage() {
               key={item}
               className="aspect-square bg-green-100 rounded-xl flex items-center justify-center"
             >
-              <Image src="/placeholder-image.png" alt="Portfolio item" width={80} height={80} />
+              
             </div>
           ))}
         </div>
