@@ -11,7 +11,7 @@ export default function ProfilePage() {
   const[userName, setUserName] = useState("Loading...")
   const [services, setServices] = useState<any[]>([])
   const [loadingServices, setLoadingServices] = useState(true)
-
+  const [major, setMajor] = useState("")
  
 
   useEffect(() => {
@@ -30,7 +30,7 @@ export default function ProfilePage() {
 
       const { data, error } = await supabase
         .from("users")
-        .select("full_name")
+        .select("full_name, major")
         .eq("id", user.id)
         .single()
 
@@ -39,6 +39,7 @@ export default function ProfilePage() {
         setUserName("User")
       } else {
         setUserName(data.full_name)
+        setMajor(data.major)
       }
       // Get user's services
       const { data: serviceData, error: serviceError } = await supabase
@@ -112,7 +113,7 @@ export default function ProfilePage() {
 
         <div>
           <h1 className="text-2xl font-bold">{userName}</h1>
-          <p className="text-green-700">Graphic Designer</p>
+          <p className="text-violet-600">Major: {major}</p>
           <p className="text-sm text-green-600 mt-1">● Available online</p>
         </div>
       </section>
