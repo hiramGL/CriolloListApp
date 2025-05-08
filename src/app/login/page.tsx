@@ -36,11 +36,11 @@ export default function LoginPage() {
   return (
     <main
       className="min-h-screen flex flex-col items-center justify-center px-4 bg-cover bg-center"
-      style={{
-        backgroundImage: "url('/campus-area.jpg')",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        backgroundBlendMode: "overlay",
-      }}
+      // style={{
+      //   backgroundImage: "url('/campus-area.jpg')",
+      //   backgroundColor: "rgba(0, 0, 0, 0.5)",
+      //   backgroundBlendMode: "overlay",
+      // }}
     >
       <h1 className="text-3xl font-extrabold mb-8 text-white">Welcome to CriolloList!</h1>
       <h2 className="text-3xl font-bold mb-6 text-white">Login</h2>
