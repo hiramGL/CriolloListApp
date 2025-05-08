@@ -9,8 +9,8 @@ import { supabase } from "@/lib/clients"
 // Map category_id to background image
 const categoryImageMap: Record<number, string> = {
   1: "/images/design-bg.png",
-  2: "/images/finance-bg.png",
-  3: "/images/education-bg.png",
+  2: "/images/education-bg.png",
+  3: "/images/finance-bg.png",
   4: "/images/ecommerce-bg.png",
   5: "/images/wellness-bg.png",
   6: "/images/events-bg.png",
@@ -100,13 +100,13 @@ export default function CategoriesPage() {
              backgroundImage: `url(${categoryImageMap[service.category_id] || "/images/default.jpg"})`,
            }}
          >
-           <div className="p-5 bg-white/60 backdrop-blur-sm">
+           <div className="p-5 bg-white/50 backdrop-blur-sm">
          
                 <h2 className="text-xl font-semibold mb-2">{service.title}</h2>
                 <p className="text-gray-700 mb-3 line-clamp-3">{service.description}</p>
                 <div className="text-sm text-gray-600 mb-1">📧 {service.contact_email}</div>
                 <div className="text-sm text-gray-600 mb-2">📱 {service.contact_phone}</div>
-                <div className="text-xs text-gray-400 mb-3">
+                <div className="text-xs text-violet-600 mb-3">
                   Created: {new Date(service.created_at).toLocaleDateString()}
                 </div>
                 <Button className="w-full" disabled>
