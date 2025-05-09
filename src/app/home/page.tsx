@@ -12,11 +12,11 @@ import { supabase } from "@/lib/supabaseClient";
 
 export default function Home() {
   const categories = [
-    { name: "Design", icon: <FaPaintBrush />, backgroundImage: "/images/design-bg.png" },
-    { name: "Tutoring", icon: <FaChalkboardTeacher />, backgroundImage: "/images/education-bg.png" },
-    { name: "Finance", icon: <FaMoneyBillWave />, backgroundImage: "/images/finance-bg.png" },
-    { name: "E-commerce", icon: <FaShoppingCart />,backgroundImage: "/images/ecommerce-bg.png" },
-    { name: "Wellness", icon: <FaSpa />,backgroundImage: "/images/wellness-bg.png" },
+    { name: "Design", icon: <FaPaintBrush />, href: "categories", backgroundImage: "/images/design-bg.png" },
+    { name: "Tutoring", icon: <FaChalkboardTeacher />, href: "categories",backgroundImage: "/images/education-bg.png" },
+    { name: "Finance", icon: <FaMoneyBillWave />, href: "categories",backgroundImage: "/images/finance-bg.png" },
+    { name: "E-commerce", icon: <FaShoppingCart />, href: "categories",backgroundImage: "/images/ecommerce-bg.png" },
+    { name: "Wellness", icon: <FaSpa />, href: "categories", backgroundImage: "/images/wellness-bg.png" },
     { name: "Events", icon: <FaCalendarAlt />, href: "/events", backgroundImage: "/images/events-bg.png" },
   ];
 
