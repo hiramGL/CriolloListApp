@@ -9,7 +9,7 @@ interface MessageCardProps {
   avatarUrl?: string
 }
 
-export default function MessageCard({ name, message, timestamp, avatarUrl = "/default-avatar.png" }: MessageCardProps) {
+export default function MessageCard({ name, message, timestamp, avatarUrl }: MessageCardProps) {
   return (
     <Card className="rounded-xl shadow-md p-3 hover:shadow-lg transition-all cursor-pointer">
       <CardContent className="flex items-center gap-4">
