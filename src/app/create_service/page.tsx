@@ -95,7 +95,7 @@ export default function CreateServicePage() {
 
     return (
         <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Create a Service</h1>
+            <h1 className="text-2xl font-bold mb-4 text-green-500">Create a Service</h1>
             {error && <p className="text-red-500 mb-4">{error}</p>}
             {!serviceCreated && (
                 <form onSubmit={handleSubmit} className="space-y-4">

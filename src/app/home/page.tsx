@@ -12,23 +12,17 @@ import { supabase } from "@/lib/supabaseClient";
 
 export default function Home() {
   const categories = [
-    { name: "Design", icon: <FaPaintBrush /> },
-    { name: "Tutoring", icon: <FaChalkboardTeacher /> },
-    { name: "Finance", icon: <FaMoneyBillWave /> },
-    { name: "E-commerce", icon: <FaShoppingCart /> },
-    { name: "Wellness", icon: <FaSpa /> },
+    { name: "Design", icon: <FaPaintBrush />, href: "/categories" },
+    { name: "Tutoring", icon: <FaChalkboardTeacher />, href: "/categories" },
+    { name: "Finance", icon: <FaMoneyBillWave />, href: "/categories" },
+    { name: "E-commerce", icon: <FaShoppingCart />, href: "/categories" },
+    { name: "Wellness", icon: <FaSpa />, href: "/categories" },
     { name: "Events", icon: <FaCalendarAlt />, href: "/events" },
   ];
 
   return (
     <main
-      className="min-h-screen bg-[#f9fafb] text-gray-800 p-6 bg-cover bg-center"
-      style={{
-        backgroundImage: "url('/green-paw-pattern.jpg')",
-        backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay for better contrast
-        backgroundBlendMode: "overlay",
-      }}
-    >
+      className="min-h-screen text-gray-800 p-6">
       {/* Top Nav */}
       <nav className="flex justify-between items-center py-4 mb-8 text-gray-100">
         <Link href="/" className="text-2xl font-bold text-green-300 hover:text-green-400">
@@ -148,10 +142,12 @@ export default function Home() {
               className="rounded-xl shadow-sm transition-colors duration-200 bg-gray-800 text-gray-100 hover:bg-green-100 hover:text-green-800"
             >
               <CardContent className="p-6 text-center font-medium">
-                <div className="flex flex-col items-center gap-2">
-                  <div className="text-2xl">{cat.icon}</div>
-                  <span>{cat.name}</span>
-                </div>
+                <Link href={cat.href}>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="text-2xl">{cat.icon}</div>
+                    <span>{cat.name}</span>
+                  </div>
+                </Link>
               </CardContent>
             </Card>
           ))}

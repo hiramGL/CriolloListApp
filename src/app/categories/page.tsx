@@ -63,7 +63,7 @@ export default function CategoriesPage() {
 
   return (
     <main className="min-h-screen p-6 bg-gray-50">
-      <h1 className="text-3xl font-bold mb-6">Browse Services</h1>
+      <h1 className="text-3xl font-bold mb-6 text-white">Browse Services</h1>
 
       {/* Search Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -72,21 +72,26 @@ export default function CategoriesPage() {
           placeholder="Search for a service..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="flex-1"
+          className="flex-1 border border-gray-300 rounded-md p-2 text-green bg-gray-50"
         />
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="border border-gray-300 rounded-md p-2"
+          className="border border-gray-300 rounded-md p-2 text-green bg-gray-50"
         >
-          <option value="">All Categories</option>
+          <option 
+                    value="">All Categories</option>
           {categories.map((category, index) => (
-            <option key={index} value={index + 1}>
+            <option 
+                        key={index} value={index + 1}>
               {category}
             </option>
           ))}
         </select>
-        <Button onClick={() => fetchServices()}>Search</Button>
+        <Button
+                    variant="outline"
+                    className="bg-green-500 text-white hover:bg-green-600" 
+                onClick={() => fetchServices()}>Search</Button>
       </div>
 
       {/* Service Cards */}
