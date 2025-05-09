@@ -4,18 +4,20 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { supabase } from "@/lib/supabaseClient";
+import { supabase } from "@/lib/supabaseClient"
 
 export default function ProfilePage() {
   const router = useRouter()
-  const[userName, setUserName] = useState("Loading...")
+  const [userName, setUserName] = useState("Loading...")
   const [services, setServices] = useState<any[]>([])
   const [loadingServices, setLoadingServices] = useState(true)
   const [major, setMajor] = useState("")
- 
+  const [profilePicture, setProfilePicture] = useState("/avatars/avatar1.png")
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false)
+  const [userId, setUserId] = useState<string | null>(null)
 
   useEffect(() => {
-    const fetchUserNameAndServices = async () => {
+    const fetchUserData = async () => {
       const {
         data: { user },
         error: authError,
@@ -28,20 +30,23 @@ export default function ProfilePage() {
         return
       }
 
+      setUserId(user.id)
+
       const { data, error } = await supabase
         .from("users")
-        .select("full_name, major")
+        .select("full_name, major, profile_image")
         .eq("id", user.id)
         .single()
 
       if (error) {
-        console.error("Error fetching full_name:", error)
+        console.error("Error fetching user data:", error)
         setUserName("User")
       } else {
         setUserName(data.full_name)
         setMajor(data.major)
+        setProfilePicture(data.profile_image || "/avatars/avatar1.png")
       }
-      // Get user's services
+
       const { data: serviceData, error: serviceError } = await supabase
         .from("services")
         .select("id, title, price, description")
@@ -57,53 +62,53 @@ export default function ProfilePage() {
       setLoadingServices(false)
     }
 
-    fetchUserNameAndServices()
+    fetchUserData()
   }, [])
-  
 
-  // Add new service
-  const handleAddService = () => {
-    const newService = {
-      id: Date.now(),
-      title: "New Service",
-      price: "$0",
-      description: "Description of the new service.",
-    }
-    setServices([...services, newService])
-  }
-
-  // Delete service by ID
   const handleDeleteService = async (id: string) => {
-    console.log("Deleting service with ID:", id)
-    const{error}= await supabase
-      .from("services")
-      .delete()
-      .eq("id", id)
-    if (error) { 
+    const { error } = await supabase.from("services").delete().eq("id", id)
+    if (error) {
       console.error("Error deleting service:", error)
       alert("Failed to delete service. Please try again.")
-        return
+      return
     }
-    setServices(services.filter(service => service.id !== id))
+    setServices(services.filter((service) => service.id !== id))
+  }
+
+  const handleAvatarChange = async (src: string) => {
+    if (!userId) return
+    const { error } = await supabase
+      .from("users")
+      .update({ profile_image: src })
+      .eq("id", userId)
+    if (error) {
+      console.error("Failed to update avatar:", error)
+    } else {
+      setProfilePicture(src)
+      setShowAvatarPicker(false)
+    }
   }
 
   return (
     <main className="max-w-4xl mx-auto px-6 py-10 text-gray-900">
       {/* Header */}
       <div className="flex justify-end mb-6">
-          <Button
-            variant="outline"
-            className="rounded-xl px-4 py-2 text-sm"
-            onClick={() => router.push("/")}
-          >
-            Home
-          </Button>
-        </div>
+        <Button
+          variant="outline"
+          className="rounded-xl px-4 py-2 text-sm"
+          onClick={() => router.push("/")}
+        >
+          Home
+        </Button>
+      </div>
+
       <section className="flex flex-col sm:flex-row items-center gap-6 mb-8">
-        
-        <div className="w-24 h-24 rounded-full bg-green-100 overflow-hidden">
+        <div
+          className="w-24 h-24 rounded-full bg-green-100 overflow-hidden cursor-pointer"
+          onClick={() => setShowAvatarPicker(true)}
+        >
           <Image
-            src="/profile_pic.png"
+            src={profilePicture}
             alt="Profile"
             width={96}
             height={96}
@@ -131,15 +136,13 @@ export default function ProfilePage() {
       <section className="mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Services Offered</h2>
-          <div className="flex gap-2">
-            <Button
-              className="rounded-xl px-3 py-1 text-sm"
-              variant="outline"
-              onClick={() => router.push("/create_service")}
-            >
-              + Add Service
-            </Button>
-          </div>
+          <Button
+            className="rounded-xl px-3 py-1 text-sm"
+            variant="outline"
+            onClick={() => router.push("/create_service")}
+          >
+            + Add Service
+          </Button>
         </div>
 
         {loadingServices ? (
@@ -148,7 +151,7 @@ export default function ProfilePage() {
           <p className="text-sm text-gray-500 italic">No services created yet</p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {services.map(service => (
+            {services.map((service) => (
               <Card key={service.id} className="shadow-sm rounded-xl relative">
                 <CardContent className="p-4">
                   <div className="flex justify-between items-center mb-1">
@@ -179,9 +182,7 @@ export default function ProfilePage() {
             <div
               key={item}
               className="aspect-square bg-green-100 rounded-xl flex items-center justify-center"
-            >
-              
-            </div>
+            />
           ))}
         </div>
       </section>
@@ -202,6 +203,31 @@ export default function ProfilePage() {
           <Button className="rounded-xl px-4 py-2 text-sm">Leave a Review</Button>
         </div>
       </section>
+
+      {/* Avatar Picker Modal */}
+      {showAvatarPicker && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl grid grid-cols-3 gap-4 max-w-md">
+            {[...Array(10)].map((_, i) => {
+              const src = `/avatars/avatar${i + 1}.png`
+              return (
+                <Image
+                  key={i}
+                  src={src}
+                  alt={`Avatar ${i + 1}`}
+                  width={64}
+                  height={64}
+                  className="cursor-pointer rounded-full hover:scale-110 transition"
+                  onClick={() => handleAvatarChange(src)}
+                />
+              )
+            })}
+            <Button className="col-span-3 mt-2" onClick={() => setShowAvatarPicker(false)}>
+              Cancel
+            </Button>
+          </div>
+        </div>
+      )}
     </main>
   )
 }
