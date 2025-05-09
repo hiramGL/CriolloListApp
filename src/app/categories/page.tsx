@@ -109,9 +109,38 @@ export default function CategoriesPage() {
                 <div className="text-xs text-violet-600 mb-3">
                   Created: {new Date(service.created_at).toLocaleDateString()}
                 </div>
-                <Button className="w-full" disabled>
-                  💬 Message Seller
-                </Button>
+                <Button
+  className="w-full"
+  onClick={async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return alert("Please log in to send a message");
+
+    const { data: existing } = await supabase
+      .from("conversations")
+      .select("*")
+      .or(`participant_1.eq.${user.id},participant_2.eq.${user.id}`)
+      .eq("participant_2", service.user_id)  // assuming seller is the service owner
+
+    let conversationId = existing?.[0]?.id;
+    if (!conversationId) {
+      const { data: newConv } = await supabase
+        .from("conversations")
+        .insert([
+          {
+            participant_1: user.id,
+            participant_2: service.user_id,
+          }
+        ])
+        .select()
+      conversationId = newConv?.[0]?.id;
+    }
+
+    router.push(`/messages?conversationId=${conversationId}`);
+  }}
+>
+  💬 Message Seller
+</Button>
+
               </div>
             </div>
           ))}

@@ -12,12 +12,12 @@ import { supabase } from "@/lib/supabaseClient";
 
 export default function Home() {
   const categories = [
-    { name: "Design", icon: <FaPaintBrush /> },
-    { name: "Tutoring", icon: <FaChalkboardTeacher /> },
-    { name: "Finance", icon: <FaMoneyBillWave /> },
-    { name: "E-commerce", icon: <FaShoppingCart /> },
-    { name: "Wellness", icon: <FaSpa /> },
-    { name: "Events", icon: <FaCalendarAlt />, href: "/events" },
+    { name: "Design", icon: <FaPaintBrush />, backgroundImage: "/images/design-bg.png" },
+    { name: "Tutoring", icon: <FaChalkboardTeacher />, backgroundImage: "/images/education-bg.png" },
+    { name: "Finance", icon: <FaMoneyBillWave />, backgroundImage: "/images/finance-bg.png" },
+    { name: "E-commerce", icon: <FaShoppingCart />,backgroundImage: "/images/ecommerce-bg.png" },
+    { name: "Wellness", icon: <FaSpa />,backgroundImage: "/images/wellness-bg.png" },
+    { name: "Events", icon: <FaCalendarAlt />, href: "/events", backgroundImage: "/images/events-bg.png" },
   ];
 
   return (
@@ -146,6 +146,7 @@ export default function Home() {
             <Card
               key={cat.name}
               className="rounded-xl shadow-sm transition-colors duration-200 bg-gray-800 text-gray-100 hover:bg-green-100 hover:text-green-800"
+              style = {{ backgroundImage: `url(${cat.backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }} // Add this line
             >
               <CardContent className="p-6 text-center font-medium">
                 <div className="flex flex-col items-center gap-2">
