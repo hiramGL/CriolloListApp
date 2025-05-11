@@ -28,21 +28,24 @@ export default function ChatWindow({ messages, userId, onSend }: ChatWindowProps
   return (
     <Card className="rounded-xl shadow-inner flex flex-col h-[500px]">
       <CardContent className="flex-1 p-4 overflow-y-auto space-y-2">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`max-w-xs px-4 py-2 rounded-xl text-sm ${
-              msg.sender_id === userId
-                ? "ml-auto bg-violet-100 text-right"
-                : "bg-gray-100 text-left"
-            }`}
-          >
-            {msg.content}
-            <div className="text-[10px] text-gray-500 mt-1">
-              {msg.created_at ? new Date(msg.created_at).toLocaleTimeString() : ""}
+        {messages.map((msg, index) => {
+          const isMine = msg.sender_id === userId
+          return (
+            <div
+              key={index}
+              className={`max-w-xs px-4 py-2 rounded-xl text-sm ${
+                isMine
+                  ? "ml-auto bg-violet-100 text-right"
+                  : "mr-auto bg-gray-100 text-left"
+              }`}
+            >
+              {msg.content}
+              <div className="text-[10px] text-gray-500 mt-1">
+                {msg.created_at ? new Date(msg.created_at).toLocaleTimeString() : ""}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </CardContent>
       <div className="flex items-center gap-2 p-4 border-t bg-white rounded-b-xl">
         <input
