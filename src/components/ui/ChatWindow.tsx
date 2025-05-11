@@ -1,4 +1,6 @@
 // components/ChatWindow.tsx
+"use client"
+
 import { useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -21,8 +23,8 @@ export default function ChatWindow({ messages, userId, onSend }: ChatWindowProps
 
   const handleSend = () => {
     if (newMessage.trim() === "") return
-    onSend(newMessage)
-    setNewMessage("")
+    onSend(newMessage) // Pass only to parent
+    setNewMessage("") // Clear input
   }
 
   return (
@@ -32,7 +34,7 @@ export default function ChatWindow({ messages, userId, onSend }: ChatWindowProps
           const isMine = msg.sender_id === userId
           return (
             <div
-              key={index}
+              key={msg.id ?? index}
               className={`max-w-xs px-4 py-2 rounded-xl text-sm ${
                 isMine
                   ? "ml-auto bg-violet-100 text-right"

@@ -1,3 +1,4 @@
+// components/MessagesClient.tsx
 "use client"
 
 import { useEffect, useState } from "react"
@@ -109,7 +110,7 @@ export default function MessagesClient() {
   const handleSendMessage = async (text: string) => {
     if (!userId || !selectedChatId || text.trim() === "") return
 
-    const { error } = await supabase.from("messages").insert([
+    await supabase.from("messages").insert([
       {
         conversation_id: selectedChatId,
         sender_id: userId,
@@ -117,17 +118,7 @@ export default function MessagesClient() {
       },
     ])
 
-    if (!error) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          conversation_id: selectedChatId,
-          sender_id: userId,
-          content: text,
-          created_at: new Date().toISOString(),
-        },
-      ])
-    }
+    // ❌ Removed the local setMessages() call to prevent duplication.
   }
 
   return (
