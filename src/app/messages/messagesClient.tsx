@@ -118,7 +118,7 @@ export default function MessagesClient() {
       },
     ])
 
-    // ❌ Removed the local setMessages() call to prevent duplication.
+    //  Removed the local setMessages() call to prevent duplication.
   }
 
   return (
