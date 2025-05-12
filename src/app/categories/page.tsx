@@ -63,7 +63,7 @@ export default function CategoriesPage() {
 
   return (
     <main className="min-h-screen p-6 bg-gray-50">
-      <h1 className="text-3xl font-bold mb-6 text-white">Browse Services</h1>
+      <h1 className="text-3xl font-bold mb-6 text-green-500">Browse Services</h1>
 
       {/* Search Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
