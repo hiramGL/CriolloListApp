@@ -133,7 +133,7 @@ export default function MessagesClient() {
         </Button>
       </div>
 
-      <h1 className="text-2xl font-bold mb-6">Messages</h1>
+      <h1 className="text-2xl font-bold mb-6 text-green-500">Messages</h1>
 
       {conversations.length === 0 ? (
         <EmptyState />

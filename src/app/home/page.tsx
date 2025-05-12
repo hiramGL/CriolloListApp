@@ -47,8 +47,8 @@ export default function Home() {
 
         <ul className="flex gap-6 text-sm font-medium">
           <li><Link href="/" className="hover:text-green-300">Home</Link></li>
-          <li><Link href="/categories" className="hover:text-green-300">Categories</Link></li>
-          <li><Link href="/coming-soon" className="hover:text-green-300">Resources</Link></li>
+          <li><Link href="/categories" className="hover:text-green-300">Services</Link></li>
+          {/* <li><Link href="/coming-soon" className="hover:text-green-300">Resources</Link></li> */}
           <li><Link href="/profile" className="hover:text-green-300">My Profile</Link></li>
           <li><Link href="/messages" className="hover:text-green-300">Messages</Link></li>
           <li><Link href="/events" className="hover:text-green-300">Events</Link></li>
