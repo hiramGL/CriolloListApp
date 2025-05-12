@@ -230,17 +230,38 @@ export default function ProfilePage() {
         </section>
 
         {/* Portfolio */}
-        <section className="mb-8">
-          <h2 className="text-lg font-semibold mb-2">Portfolio</h2>
-          <div className="grid grid-cols-3 gap-4">
-            {[1, 2, 3].map((item) => (
-              <div
-                key={item}
-                className="aspect-square bg-green-100 rounded-xl flex items-center justify-center"
-              />
-            ))}
-          </div>
-        </section>
+        {/* Portfolio */}
+<section className="mb-8">
+  <h2 className="text-lg font-semibold mb-2">Portfolio</h2>
+  <div className="bg-white border border-dashed border-green-300 p-6 rounded-xl text-center">
+    <p className="text-gray-600 text-sm mb-2">
+      Showcase your work here! Upload photos, videos, or project links to give others a better idea of your skills.
+    </p>
+    <Button
+      variant="outline"
+      className="mt-2 text-green-700 border-green-400 hover:bg-green-50"
+      onClick={() => alert("This feature is coming soon!")}
+    >
+      📸 Upload Portfolio (Coming Soon)
+    </Button>
+
+    {/* Optional external link field */}
+    {/* 
+    <div className="mt-4">
+      <p className="text-sm text-gray-500">Or link to an external portfolio:</p>
+      <a
+        href="https://yourportfolio.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-green-600 underline text-sm"
+      >
+        View My Portfolio
+      </a>
+    </div>
+    */}
+  </div>
+</section>
+
 
         {/* Avatar Picker Modal */}
         {showAvatarPicker && (
