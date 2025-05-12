@@ -15,6 +15,9 @@ export default function ProfilePage() {
   const [profilePicture, setProfilePicture] = useState("/avatars/avatar1.png")
   const [showAvatarPicker, setShowAvatarPicker] = useState(false)
   const [userId, setUserId] = useState<string | null>(null)
+  const [bio, setBio] = useState("")
+  const [isEditingBio, setIsEditingBio] = useState(false)
+  const [bioInput, setBioInput] = useState("")
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -34,7 +37,7 @@ export default function ProfilePage() {
 
       const { data, error } = await supabase
         .from("users")
-        .select("full_name, major, profile_image")
+        .select("full_name, major, profile_image, bio")
         .eq("id", user.id)
         .single()
 
@@ -45,6 +48,7 @@ export default function ProfilePage() {
         setUserName(data.full_name)
         setMajor(data.major)
         setProfilePicture(data.profile_image || "/avatars/avatar1.png")
+        setBio(data.bio || "")
       }
 
       const { data: serviceData, error: serviceError } = await supabase
@@ -89,11 +93,25 @@ export default function ProfilePage() {
     }
   }
 
+  const handleBioSave = async () => {
+    if (!userId) return
+    const { error } = await supabase
+      .from("users")
+      .update({ bio: bioInput })
+      .eq("id", userId)
+
+    if (error) {
+      console.error("Error updating bio:", error)
+      alert("Failed to update bio.")
+    } else {
+      setBio(bioInput)
+      setIsEditingBio(false)
+    }
+  }
+
   return (
     <main className="max-w-4xl mx-auto px-6 py-10 text-gray-900">
-      {/* Add a container with a semi-transparent background */}
       <div className="bg-gray-100 bg-opacity-50 rounded-xl p-6 shadow-lg">
-        {/* Header */}
         <div className="flex justify-end mb-6">
           <Button
             variant="outline"
@@ -111,7 +129,7 @@ export default function ProfilePage() {
           >
             <Image
               src={profilePicture}
-              alt="Profile"
+              alt="Profile_pic"
               width={96}
               height={96}
               className="object-cover"
@@ -128,10 +146,45 @@ export default function ProfilePage() {
         {/* About Me */}
         <section className="mb-8">
           <h2 className="text-lg font-semibold mb-2">About Me</h2>
-          <p className="text-sm text-gray-700">
-            I'm a student with a passion for creating clean, impactful design solutions.
-            Let me help bring your ideas to life!
-          </p>
+          {isEditingBio ? (
+            <div className="space-y-2">
+              <textarea
+                className="w-full p-2 rounded-md border border-gray-300 text-sm"
+                value={bioInput}
+                onChange={(e) => setBioInput(e.target.value)}
+                rows={4}
+              />
+              <div className="flex gap-2">
+                <Button size="sm" onClick={handleBioSave}>
+                  Save
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => setIsEditingBio(false)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-between items-start">
+              <p className="text-sm text-gray-700 max-w-xl whitespace-pre-wrap">
+                {bio || "No bio yet."}
+              </p>
+              <Button
+                size="sm"
+                variant="outline"
+                className="ml-4"
+                onClick={() => {
+                  setBioInput(bio)
+                  setIsEditingBio(true)
+                }}
+              >
+                Edit
+              </Button>
+            </div>
+          )}
         </section>
 
         {/* Services Offered */}
@@ -186,23 +239,6 @@ export default function ProfilePage() {
                 className="aspect-square bg-green-100 rounded-xl flex items-center justify-center"
               />
             ))}
-          </div>
-        </section>
-
-        {/* Testimonials */}
-        <section className="mb-4">
-          <h2 className="text-lg font-semibold mb-2">Testimonials</h2>
-          <Card className="rounded-xl shadow-sm">
-            <CardContent className="p-4">
-              <p className="text-green-800 font-bold">★★★★★</p>
-              <p className="text-sm text-gray-800 font-medium">Michael S., Business Administration</p>
-              <p className="text-sm text-gray-600 mt-1">
-                Jessica did an amazing job on our logo. Highly recommend her services!
-              </p>
-            </CardContent>
-          </Card>
-          <div className="mt-4">
-            <Button className="rounded-xl px-4 py-2 text-sm">Leave a Review</Button>
           </div>
         </section>
 

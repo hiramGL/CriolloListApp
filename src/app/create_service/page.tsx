@@ -197,7 +197,7 @@ export default function CreateServicePage() {
 
                     <div>
                         <label htmlFor="image_urls" className="block font-medium text-green-500">
-                            Image URLs
+                            Website URLs
                         </label>
                         <input
                             type="text"
@@ -206,7 +206,6 @@ export default function CreateServicePage() {
                             value={formData.image_urls}
                             onChange={handleChange}
                             className="w-full border rounded p-2 bg-gray-50"
-                            required
                         />
                     </div>
 
