@@ -1,4 +1,3 @@
-// components/MessagesClient.tsx
 "use client"
 
 import { useEffect, useState } from "react"
@@ -9,6 +8,15 @@ import EmptyState from "@/components/ui/EmptyState"
 import MessageCard from "@/components/ui/MessageCard"
 import ChatWindow from "@/components/ui/ChatWindow"
 
+// Simple loading spinner component
+function Spinner() {
+  return (
+    <div className="flex justify-center items-center h-64">
+      <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-500"></div>
+    </div>
+  )
+}
+
 export default function MessagesClient() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -17,6 +25,7 @@ export default function MessagesClient() {
   const [messages, setMessages] = useState<any[]>([])
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null)
   const [userId, setUserId] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true) // New loading state
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,6 +71,7 @@ export default function MessagesClient() {
 
       setConversations(enriched)
       setSelectedChatId(searchParams.get("conversationId") || enriched[0]?.id || null)
+      setLoading(false) // Stop loading once data is ready
     }
 
     fetchData()
@@ -117,8 +127,6 @@ export default function MessagesClient() {
         content: text,
       },
     ])
-
-    //  Removed the local setMessages() call to prevent duplication.
   }
 
   return (
@@ -135,7 +143,9 @@ export default function MessagesClient() {
 
       <h1 className="text-2xl font-bold mb-6 text-green-500">Messages</h1>
 
-      {conversations.length === 0 ? (
+      {loading ? (
+        <Spinner />
+      ) : conversations.length === 0 ? (
         <EmptyState />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
